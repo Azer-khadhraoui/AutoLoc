@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,8 +55,10 @@ public class Vehicule {
         private Set<Equipement> equipements = new HashSet<>();
 
         @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL, orphanRemoval = true)
+        @JsonIgnore
         private Set<Maintenance> maintenances = new HashSet<>();
 
     @OneToMany(mappedBy = "vehicule")
+        @JsonIgnore
     private Set<Reservation> reservations = new HashSet<>();
 }

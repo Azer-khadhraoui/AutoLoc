@@ -54,6 +54,7 @@ public abstract class AbstractCrudController<T> {
         })
     public T update(@PathVariable Long id, @RequestBody T entity) {
         T existingEntity = service.findById(id);
+        beforeUpdate(existingEntity, entity);
         String[] ignoredProperties = java.util.Arrays.stream(entity.getClass().getDeclaredFields())
             .filter(field -> field.isAnnotationPresent(jakarta.persistence.Id.class)
                 || field.isAnnotationPresent(jakarta.persistence.OneToOne.class)
@@ -64,6 +65,9 @@ public abstract class AbstractCrudController<T> {
             .toArray(String[]::new);
         BeanUtils.copyProperties(entity, existingEntity, ignoredProperties);
         return service.save(existingEntity);
+    }
+
+    protected void beforeUpdate(T existingEntity, T incomingEntity) {
     }
 
     @DeleteMapping("/{id}")

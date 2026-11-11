@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.domain.Reservation;
 import tn.esprit.autoloc.domain.StatutReservation;
@@ -29,6 +30,18 @@ public class ReservationService extends AbstractCrudService<Reservation> {
 
     public List<Reservation> findByStatut(StatutReservation statut) {
         return reservationRepository.findByStatut(statut);
+    }
+
+    @Transactional
+    public Reservation changerStatut(Long reservationId, StatutReservation nouveauStatut) {
+        Reservation reservation = findById(reservationId);
+        StatutReservation statutActuel = reservation.getStatut();
+        if (!statutActuel.autoriseTransitionVers(nouveauStatut)) {
+            throw new IllegalStateException(
+                    "Transition de statut interdite : " + statutActuel + " vers " + nouveauStatut);
+        }
+        reservation.setStatut(nouveauStatut);
+        return reservationRepository.save(reservation);
     }
 
     public boolean existsChevauchement(Long vehiculeId, LocalDate debut, LocalDate fin,

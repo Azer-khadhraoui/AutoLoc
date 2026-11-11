@@ -16,4 +16,10 @@ public class ApiExceptionHandler {
     public Map<String, String> handleNotFound(EntityNotFoundException exception) {
         return Map.of("error", exception.getMessage());
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleInvalidTransition(IllegalStateException exception) {
+        return Map.of("error", exception.getMessage());
+    }
 }

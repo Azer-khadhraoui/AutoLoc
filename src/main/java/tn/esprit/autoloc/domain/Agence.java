@@ -36,7 +36,7 @@ public class Agence {
     @JsonIgnore
     private Set<Vehicule> vehicules = new HashSet<>();
 
-    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "agence")
     @JsonIgnore
     private Set<Employe> employes = new HashSet<>();
 }

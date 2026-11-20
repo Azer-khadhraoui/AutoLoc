@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.autoloc.domain.Reservation;
 import tn.esprit.autoloc.domain.StatutReservation;
+import tn.esprit.autoloc.mapper.ReservationMapper;
 import tn.esprit.autoloc.service.ReservationService;
 
 @RestController
@@ -15,10 +16,17 @@ import tn.esprit.autoloc.service.ReservationService;
 public class ReservationController extends AbstractCrudController<Reservation> {
 
     private final ReservationService reservationService;
+    private final ReservationMapper reservationMapper;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, ReservationMapper reservationMapper) {
         super(reservationService);
         this.reservationService = reservationService;
+        this.reservationMapper = reservationMapper;
+    }
+
+    @Override
+    protected void copyUpdateProperties(Reservation incomingEntity, Reservation existingEntity) {
+        reservationMapper.updateFromRequest(incomingEntity, existingEntity);
     }
 
     @Override

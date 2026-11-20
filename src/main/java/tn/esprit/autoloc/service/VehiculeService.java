@@ -49,12 +49,12 @@ public class VehiculeService extends AbstractCrudService<Vehicule> {
         return vehiculeRepository.findByAgence_IdAgence(agenceId);
     }
 
-        @Transactional
-        public Vehicule affecterVehicule(Long idVehicule, Long idAgence) {
+    @Transactional
+    public Vehicule affecterVehicule(Long idVehicule, Long idAgence) {
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-            .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
+                .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
         Agence nouvelleAgence = agenceRepository.findById(idAgence)
-            .orElseThrow(() -> new EntityNotFoundException("Agence introuvable avec l'id " + idAgence));
+                .orElseThrow(() -> new EntityNotFoundException("Agence introuvable avec l'id " + idAgence));
 
         if (vehicule.getAgence() != null) {
             vehicule.getAgence().getVehicules().remove(vehicule);
@@ -62,31 +62,31 @@ public class VehiculeService extends AbstractCrudService<Vehicule> {
         vehicule.setAgence(nouvelleAgence);
         nouvelleAgence.getVehicules().add(vehicule);
         return vehiculeRepository.save(vehicule);
-        }
+    }
 
-        @Transactional
-        public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
+    @Transactional
+    public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-            .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
+                .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
         Equipement equipement = equipementRepository.findById(idEquipement)
-            .orElseThrow(() -> new EntityNotFoundException("Equipement introuvable avec l'id " + idEquipement));
+                .orElseThrow(() -> new EntityNotFoundException("Equipement introuvable avec l'id " + idEquipement));
 
         vehicule.getEquipements().add(equipement);
         equipement.getVehicules().add(vehicule);
         return vehiculeRepository.save(vehicule);
-        }
+    }
 
-        @Transactional
-        public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
+    @Transactional
+    public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-            .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
+                .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
         Equipement equipement = equipementRepository.findById(idEquipement)
-            .orElseThrow(() -> new EntityNotFoundException("Equipement introuvable avec l'id " + idEquipement));
+                .orElseThrow(() -> new EntityNotFoundException("Equipement introuvable avec l'id " + idEquipement));
 
         vehicule.getEquipements().remove(equipement);
         equipement.getVehicules().remove(vehicule);
         return vehiculeRepository.save(vehicule);
-        }
+    }
 
     public List<Vehicule> findDisponibles(LocalDate debut, LocalDate fin,
                                           Collection<StatutReservation> statuts) {

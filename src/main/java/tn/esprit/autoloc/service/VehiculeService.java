@@ -20,6 +20,8 @@ import java.util.List;
 @Service
 public class VehiculeService extends AbstractCrudService<Vehicule> {
 
+    private static final String VEHICULE_NOT_FOUND = "Vehicule introuvable avec l'id ";
+
     private final VehiculeRepository vehiculeRepository;
     private final AgenceRepository agenceRepository;
     private final EquipementRepository equipementRepository;
@@ -52,7 +54,7 @@ public class VehiculeService extends AbstractCrudService<Vehicule> {
     @Transactional
     public Vehicule affecterVehicule(Long idVehicule, Long idAgence) {
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
+                .orElseThrow(() -> new EntityNotFoundException(VEHICULE_NOT_FOUND + idVehicule));
         Agence nouvelleAgence = agenceRepository.findById(idAgence)
                 .orElseThrow(() -> new EntityNotFoundException("Agence introuvable avec l'id " + idAgence));
 
@@ -67,7 +69,7 @@ public class VehiculeService extends AbstractCrudService<Vehicule> {
     @Transactional
     public Vehicule affecterEquipement(Long idVehicule, Long idEquipement) {
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
+                .orElseThrow(() -> new EntityNotFoundException(VEHICULE_NOT_FOUND + idVehicule));
         Equipement equipement = equipementRepository.findById(idEquipement)
                 .orElseThrow(() -> new EntityNotFoundException("Equipement introuvable avec l'id " + idEquipement));
 
@@ -79,7 +81,7 @@ public class VehiculeService extends AbstractCrudService<Vehicule> {
     @Transactional
     public Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement) {
         Vehicule vehicule = vehiculeRepository.findById(idVehicule)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicule introuvable avec l'id " + idVehicule));
+                .orElseThrow(() -> new EntityNotFoundException(VEHICULE_NOT_FOUND + idVehicule));
         Equipement equipement = equipementRepository.findById(idEquipement)
                 .orElseThrow(() -> new EntityNotFoundException("Equipement introuvable avec l'id " + idEquipement));
 
